@@ -2,7 +2,7 @@
 """
 YOUR HEADER COMMENT HERE
 
-@author: YOUR NAME HERE
+@author: Griffith Stites
 
 """
 
@@ -17,8 +17,6 @@ def shuffle_string(s):
         have to modify this in any way """
     return ''.join(random.sample(s, len(s)))
 
-# YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
-
 
 def get_complement(nucleotide):
     """ Returns the complementary nucleotide
@@ -29,9 +27,19 @@ def get_complement(nucleotide):
     'T'
     >>> get_complement('C')
     'G'
+    >>> get_complement('T')
+    'A'
+    >>> get_complement('G')
+    'C'
     """
-    # TODO: implement this
-    pass
+    if(nucleotide == 'A'):
+        return 'T'
+    if(nucleotide == 'C'):
+        return 'G'
+    if(nucleotide == 'T'):
+        return 'A'
+    if(nucleotide == 'G'):
+        return 'C'
 
 
 def get_reverse_complement(dna):
@@ -45,8 +53,13 @@ def get_reverse_complement(dna):
     >>> get_reverse_complement("CCGCGTTCA")
     'TGAACGCGG'
     """
-    # TODO: implement this
-    pass
+    dna = dna[::-1]     # reverses the dna sequence
+    dna_r = ""  # initializing the dna reverse complementary sequence as an empty string
+    t = 0
+    while (t < len(dna)):
+        dna_r += get_complement(dna[t])     # adds the next complementary nucleotide to the string
+        t += 1
+    return dna_n
 
 
 def rest_of_ORF(dna):
@@ -163,4 +176,5 @@ def gene_finder(dna):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
+    #doctest.testmod()
+    doctest.run_docstring_examples(get_reverse_complement, globals(), verbose=False)
