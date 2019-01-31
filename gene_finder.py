@@ -58,11 +58,9 @@ def get_reverse_complement(dna):
     """
     dna = dna[::-1]     # reverses the dna sequence
     dna_r = ""  # initializing the dna reverse complementary sequence as an empty string
-    t = 0
-    while (t < len(dna)):
-        dna_r += get_complement(dna[t])     # adds the next complementary nucleotide to the string
-        t += 1
-    return dna_n
+    while (len(dna_r) < len(dna)):
+        dna_r += get_complement(dna[len(dna_r)])     # adds the next complementary nucleotide to the string
+    return dna_r
 
 
 def rest_of_ORF(dna):
