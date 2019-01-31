@@ -27,8 +27,10 @@ def get_complement(nucleotide):
     'T'
     >>> get_complement('C')
     'G'
+    Added this unit test because A and C are only two of the possible four nucleotides, T is another.
     >>> get_complement('T')
     'A'
+    Added this unit test because A and C are only two of the possible four nucleotides, G is another.
     >>> get_complement('G')
     'C'
     """
@@ -48,6 +50,7 @@ def get_reverse_complement(dna):
 
         dna: a DNA sequence represented as a string
         returns: the reverse complementary DNA sequence represented as a string
+    The following two unit tests are sufficient because they test different DNA sequence lengths, all four complements, and different orders of compliments.
     >>> get_reverse_complement("ATGCCCGCTTT")
     'AAAGCGGGCAT'
     >>> get_reverse_complement("CCGCGTTCA")
