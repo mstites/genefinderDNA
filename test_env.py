@@ -6,3 +6,5 @@ print(len(string))
 test = string[1]
 print(test)
 print(type("A"))
+string_n = string.replace("world ","")
+print(string_n)
