@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-YOUR HEADER COMMENT HERE
+Gene finding tool
 
 @author: Griffith Stites
 
@@ -27,9 +27,11 @@ def get_complement(nucleotide):
     'T'
     >>> get_complement('C')
     'G'
+
     Added this unit test because A and C are only two of the possible four nucleotides, T is another.
     >>> get_complement('T')
     'A'
+
     Added this unit test because A and C are only two of the possible four nucleotides, G is another.
     >>> get_complement('G')
     'C'
@@ -57,9 +59,9 @@ def get_reverse_complement(dna):
     'TGAACGCGG'
     """
     dna = dna[::-1]     # reverses the dna sequence
-    dna_r = ""  # initializing the dna reverse complementary sequence as an empty string
+    dna_r = ""  # initializing the dna reverse complementary as empty string
     while (len(dna_r) < len(dna)):
-        dna_r += get_complement(dna[len(dna_r)])     # adds the next complementary nucleotide to the string
+        dna_r += get_complement(dna[len(dna_r)])     # adds next complementary nucleotide
     return dna_r
 
 
@@ -70,14 +72,28 @@ def rest_of_ORF(dna):
         returns the whole string.
 
         dna: a DNA sequence
-        returns: the open reading frame represented as a string
+        returns: the open readFirst 3ing frame represented as a string
     >>> rest_of_ORF("ATGTGAA")
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
     'ATGAGA'
+
+    The following unit test tests the third stop codono (TAA) as well as if there are more codons after the stop codon. It is also longer and has codons with many like characters in a row. I also threw another start and stop codon on the end.
+    >>> rest_of_ORF("ATGATTTTTCAATAAATGTAATAA")
+    'ATGATTTTTCAA'
+
+    The following unit tests if there is a dna sequence with no stop codon.
+    >>> rest_of_ORF("ATGGCGTGG")
+    'ATGGCGTGG'
     """
-    # TODO: implement this
-    pass
+    dna_n = "" # initializing new dna sequence w/o stop codon as an empty string
+    while (len(dna_n) != len(dna)):
+        codon = dna[len(dna_n)] + dna[len(dna_n) + 1] + dna[len(dna_n) + 2] # next codon to test from the dna sequence
+        if(codon == "TGA" or codon == "TAG" or codon == "TAA"): # checks for stop codon
+            return dna_n
+        else:
+            dna_n += codon
+    return dna_n
 
 
 def find_all_ORFs_oneframe(dna):
@@ -178,4 +194,4 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     #doctest.testmod()
-    doctest.run_docstring_examples(get_reverse_complement, globals(), verbose=False)
+    doctest.run_docstring_examples(find_all_ORFs_oneframe, globals(), verbose=False)
