@@ -123,7 +123,6 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("ATGTTTATGATGATGAAATGT")
     ['ATGTTTATGATGATGAAATGT']
 
-    Check if all valid and in a row
     DO I NEED TO TEST ONES THAT DO NOT START WITH ATG????
     """
     ORF_list = [] # initialzing the new dna to add to the list
@@ -139,14 +138,10 @@ def find_all_ORFs_oneframe(dna):
             # adds the number of codons in the ORF to checked, stop codon is handled by codons_checked += 1
             ORF_codons = int(len(ORF)/3)
             codons_checked += (ORF_codons)
-        else:
-            dna = dna.replace(codon, "") # remove the codon
-        # accounts for the checked codon or the stop codon if ORF was found
-        codons_checked += 1
-        #break
-        #Exit if not complete codon (IE only two or one character)
-        #Exit if got through whole length
-    # check for nested
+
+        codons_checked += 1 # also for stop codon if ORF found
+        #Exit if not complete codon? (IE only two or one character)
+        
     return ORF_list
 
 def find_all_ORFs(dna):
