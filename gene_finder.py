@@ -131,17 +131,15 @@ def find_all_ORFs_oneframe(dna):
 
     while codons_checked*3 < len(dna): # checks if all values have been tested
         codon = dna[codons_checked*3:codons_checked*3 + 3]
-        if (codon == "ATG"): # checks if the codon is a start codon
-            ORF = rest_of_ORF(dna[codons_checked*3:])
-            ORF_list.insert(ORF_num, ORF)
+        if (codon == "ATG"): # checks if codon is a start codon
+            ORF = rest_of_ORF(dna[codons_checked*3:]) # sends dna with current codon to end
+            ORF_list.insert(ORF_num, ORF) # adds the ORF to the list
             ORF_num += 1
-            # adds the number of codons in the ORF to checked, stop codon is handled by codons_checked += 1
-            ORF_codons = int(len(ORF)/3)
-            codons_checked += (ORF_codons)
+            codons_checked += (int(len(ORF)/3)) # adds length of ORF to checked
 
         codons_checked += 1 # also for stop codon if ORF found
         #Exit if not complete codon? (IE only two or one character)
-        
+
     return ORF_list
 
 def find_all_ORFs(dna):
