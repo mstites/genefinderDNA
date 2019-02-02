@@ -120,12 +120,13 @@ def find_all_ORFs_oneframe(dna):
     ['ATGTTTATGGAGATT', 'ATGTTTAGGCAA', 'ATGGGTGGC']
 
     The following unit test was added to test if there was no stop codon.
-    >>> find_all_ORFs_oneframe("ATGTTTATGATGATGAAATGT")
-    ['ATGTTTATGATGATGAAATGT']
+    Also if the final characters do not make a codon
+    >>> find_all_ORFs_oneframe("ATGTTTATGATGATGAAATG")
+    ['ATGTTTATGATGATGAAATG']
 
     DO I NEED TO TEST ONES THAT DO NOT START WITH ATG????
     """
-    ORF_list = [] # initialzing the new dna to add to the list
+    ORF_list = []
     ORF_num = 0 # number of ORFs in the list
     codons_checked = 0
 
@@ -136,9 +137,9 @@ def find_all_ORFs_oneframe(dna):
             ORF_list.insert(ORF_num, ORF) # adds the ORF to the list
             ORF_num += 1
             codons_checked += (int(len(ORF)/3)) # adds length of ORF to checked
-
+        if (len(codon) < 3): # exit if not a complete codon
+            break
         codons_checked += 1 # also for stop codon if ORF found
-        #Exit if not complete codon? (IE only two or one character)
 
     return ORF_list
 
@@ -154,10 +155,35 @@ def find_all_ORFs(dna):
 
     >>> find_all_ORFs("ATGCATGAATGTAG")
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
-    """
-    # TODO: implement this
-    pass
 
+    The following unit test was added to test ignoring nested ORFs.
+    >>> find_all_ORFs("ATGTTTATGAACTGGTAGCATGTAG")
+    ['ATGTTTATGAACTG', 'ATG']
+
+    The following unit test was added to test with no stop codon.
+
+    The following unit test was added to test multiple ORFs in one frame and not ending in a stop codon.
+    >>> find_all_ORFs("ATGCATGAATGTAGATAGATGTGCCCCATGATTGAC")
+    ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGATTGAC']
+    """
+    ORF_list = []
+    ORF_num = 0
+    offset = 0
+
+    # oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)])
+    # ORF_list.insert(ORF_num, oneframe_ORF[ORF_num])
+    while (offset <= 2):
+        oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)])
+        oneframe_ORF= []
+        test = len(oneframe_ORF) != 0
+        print(test)
+        #while (len(oneframe_ORF) != 0):
+            #ORF_list.insert(ORF_num, oneframe_ORF[ORF_num])
+            #oneframe_ORF.remove(oneframe_ORF[ORF_num])
+            #ORF_num += 1
+        offset += 1
+
+    return ORF_list
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -223,5 +249,5 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     #doctest.testmod()
-    doctest.run_docstring_examples(find_all_ORFs_oneframe, globals(), verbose=False)
-    #doctest.run_docstring_examples(rest_of_ORF, globals(), verbose = True)
+    doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
+    #doctest.run_docstring_examples(find_all_ORFs_oneframe, globals(), verbose = True)
