@@ -119,6 +119,10 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("ATGTTTATGGAGATTTAAATGTTTAGGCAATGAATGGGTGGCTAATTTTTCGTT")
     ['ATGTTTATGGAGATT', 'ATGTTTAGGCAA', 'ATGGGTGGC']
 
+    The following unit test was added to test if there was no stop codon.
+    >>> find_all_ORFs_oneframe("ATGTTTATGATGATGAAATGT")
+    ['ATGTTTATGATGATGAAATGT']
+
     Check if all valid and in a row
     DO I NEED TO TEST ONES THAT DO NOT START WITH ATG????
     """
@@ -126,15 +130,18 @@ def find_all_ORFs_oneframe(dna):
     ORF_num = 0 # number of ORFs in the list
     codons_checked = 0
 
-    while codons_checked*3 < len(dna): # checks to see if the whole dna strand has gone through
+    while codons_checked*3 < len(dna): # checks if all values have been tested
         codon = dna[codons_checked*3:codons_checked*3 + 3]
         if (codon == "ATG"): # checks if the codon is a start codon
             ORF = rest_of_ORF(dna[codons_checked*3:])
             ORF_list.insert(ORF_num, ORF)
-            dna = dna.replace(ORF, "") # removes the ORF from the dna string
             ORF_num += 1
+            # adds the number of codons in the ORF to checked, stop codon is handled by codons_checked += 1
+            ORF_codons = int(len(ORF)/3)
+            codons_checked += (ORF_codons)
         else:
             dna = dna.replace(codon, "") # remove the codon
+        # accounts for the checked codon or the stop codon if ORF was found
         codons_checked += 1
         #break
         #Exit if not complete codon (IE only two or one character)
