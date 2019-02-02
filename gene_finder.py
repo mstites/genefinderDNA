@@ -79,16 +79,16 @@ def rest_of_ORF(dna):
     'ATGAGA'
 
     The following unit test tests the third stop codono (TAA) as well as if there are more codons after the stop codon. It is also longer and has codons with many like characters in a row. I also threw another start and stop codon on the end.
-    >>> rest_of_ORF("ATGATTTTTCAATAAATGTAATAA")
+    >>> rest_of_ORF("ATGATTTTTCAATAAATGTAA")
     'ATGATTTTTCAA'
 
-    The following unit tests if there is a dna sequence with no stop codon.
+    The following unit test tests if there is a dna sequence with no stop codon.
     >>> rest_of_ORF("ATGGCGTGG")
     'ATGGCGTGG'
     """
     dna_n = "" # initializing new dna sequence w/o stop codon as an empty string
     while (len(dna_n) != len(dna)):
-        codon = dna[len(dna_n)] + dna[len(dna_n) + 1] + dna[len(dna_n) + 2] # next codon to test from the dna sequence
+        codon = dna[len(dna_n):(len(dna_n) + 3)] # next codon to test from the dna sequence
         if(codon == "TGA" or codon == "TAG" or codon == "TAA"): # checks for stop codon
             return dna_n
         else:
@@ -108,10 +108,39 @@ def find_all_ORFs_oneframe(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
-    """
-    # TODO: implement this
-    pass
 
+    The following unit test was added to check to reject ORFs that are not multiples of 3.
+    There are also items between the stop codon and the second start codon.
+    >>> find_all_ORFs_oneframe("ATGTACTAATTTGAGAATGTTTGAGTGGATTTAG")
+    ['ATGTAC']
+
+    The following unit test was added to check to reject nested ORFs.
+    There are also 3 non-nested ORFs to check for more ORFs.
+    >>> find_all_ORFs_oneframe("ATGTTTATGGAGATTTAAATGTTTAGGCAATGAATGGGTGGCTAATTTTTCGTT")
+    ['ATGTTTATGGAGATT', 'ATGTTTAGGCAA', 'ATGGGTGGC']
+
+    Check if all valid and in a row
+    DO I NEED TO TEST ONES THAT DO NOT START WITH ATG????
+    """
+    ORF_list = [] # initialzing the new dna to add to the list
+    ORF_num = 0 # number of ORFs in the list
+    codons_checked = 0
+
+    while codons_checked*3 < len(dna): # checks to see if the whole dna strand has gone through
+        codon = dna[codons_checked*3:codons_checked*3 + 3]
+        if (codon == "ATG"): # checks if the codon is a start codon
+            ORF = rest_of_ORF(dna[codons_checked*3:])
+            ORF_list.insert(ORF_num, ORF)
+            dna = dna.replace(ORF, "") # removes the ORF from the dna string
+            ORF_num += 1
+        else:
+            dna = dna.replace(codon, "") # remove the codon
+        codons_checked += 1
+        #break
+        #Exit if not complete codon (IE only two or one character)
+        #Exit if got through whole length
+    # check for nested
+    return ORF_list
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in
@@ -195,3 +224,4 @@ if __name__ == "__main__":
     import doctest
     #doctest.testmod()
     doctest.run_docstring_examples(find_all_ORFs_oneframe, globals(), verbose=False)
+    #doctest.run_docstring_examples(rest_of_ORF, globals(), verbose = True)
