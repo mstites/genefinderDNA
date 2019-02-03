@@ -124,7 +124,9 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("ATGTTTATGATGATGAAATG")
     ['ATGTTTATGATGATGAAATG']
 
-    DO I NEED TO TEST ONES THAT DO NOT START WITH ATG????
+    The following unit test was added to test if the sequence did not start with ATG.
+    >>> find_all_ORFs_oneframe("GCATGAATGTAGATAGATGTGCCCCATGATTGAC")
+    ['ATG']
     """
     ORF_list = []
     ORF_num = 0 # number of ORFs in the list
@@ -158,29 +160,25 @@ def find_all_ORFs(dna):
 
     The following unit test was added to test ignoring nested ORFs.
     >>> find_all_ORFs("ATGTTTATGAACTGGTAGCATGTAG")
-    ['ATGTTTATGAACTG', 'ATG']
+    ['ATGTTTATGAACTGG', 'ATG']
 
     The following unit test was added to test with no stop codon.
 
     The following unit test was added to test multiple ORFs in one frame and not ending in a stop codon.
     >>> find_all_ORFs("ATGCATGAATGTAGATAGATGTGCCCCATGATTGAC")
-    ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGATTGAC']
+    ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGAATGTAGATAGATGTGCCCCA', 'ATG']
     """
     ORF_list = []
     ORF_num = 0
     offset = 0
 
-    # oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)])
-    # ORF_list.insert(ORF_num, oneframe_ORF[ORF_num])
     while (offset <= 2):
         oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)])
-        oneframe_ORF= []
         test = len(oneframe_ORF) != 0
-        print(test)
-        #while (len(oneframe_ORF) != 0):
-            #ORF_list.insert(ORF_num, oneframe_ORF[ORF_num])
-            #oneframe_ORF.remove(oneframe_ORF[ORF_num])
-            #ORF_num += 1
+        while (len(oneframe_ORF) != 0):
+            ORF_list.insert(ORF_num, oneframe_ORF[0])
+            oneframe_ORF.remove(oneframe_ORF[0])
+            ORF_num += 1
         offset += 1
 
     return ORF_list
