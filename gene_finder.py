@@ -162,7 +162,7 @@ def find_all_ORFs(dna):
     >>> find_all_ORFs("ATGTTTATGAACTGGTAGCATGTAG")
     ['ATGTTTATGAACTGG', 'ATG']
 
-    The following unit test was added to test with no stop codon.
+    The following unit test was added to test with no stop codon. ADD
 
     The following unit test was added to test multiple ORFs in one frame and not ending in a stop codon.
     >>> find_all_ORFs("ATGCATGAATGTAGATAGATGTGCCCCATGATTGAC")
@@ -191,10 +191,24 @@ def find_all_ORFs_both_strands(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
-    """
-    # TODO: implement this
-    pass
 
+    The following unit test was added to test with an offset?
+
+    Test not starting with ATG
+
+    Test for nesting?
+
+    With multiple items on both sides
+    """
+    ORF_list = find_all_ORFs(dna) # initilize by adding the unmodified strand ORFs
+
+    dna_c = get_reverse_complement(dna) # complementary dna_strand
+    ORF_list_c = find_all_ORFs(dna_c) # complementary list of ORF
+    while (len(ORF_list_c) != 0): # adding items to ORF_list while removing them off of ORF_list_c
+        ORF_list.insert(len(ORF_list) + 1, ORF_list_c[0])
+        ORF_list_c.remove(ORF_list_c[0])
+    #REVERSE dna_c it is read the other way
+    return ORF_list
 
 def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
@@ -247,5 +261,5 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     #doctest.testmod()
-    doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
-    #doctest.run_docstring_examples(find_all_ORFs_oneframe, globals(), verbose = True)
+    #doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
+    doctest.run_docstring_examples(find_all_ORFs_both_strands, globals(), verbose = False)
