@@ -139,8 +139,8 @@ def find_all_ORFs_oneframe(dna):
             ORF_list.insert(ORF_num, ORF) # adds the ORF to the list
             ORF_num += 1
             codons_checked += (int(len(ORF)/3)) # adds length of ORF to checked
-        if (len(codon) < 3): # exit if not a complete codon
-            break
+        # if (len(codon) < 3): # exit if not a complete codon
+        #     break
         codons_checked += 1 # also for stop codon if ORF found
 
     return ORF_list
@@ -192,11 +192,14 @@ def find_all_ORFs_both_strands(dna):
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
 
-    The following unit test was added to test with an offset?
+    Test not starting with ATG and with the reverse not having an ORF, also offset.
+    >>> find_all_ORFs_both_strands("CCAAAAGATGTACTGCTGG")
+    ['ATGTACTGCTGG']
 
-    Test not starting with ATG
+    Test with multiple items on both strands. Test for nesting?
+    >>> find_all_ORFs_both_strands("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
+    ['ATG', 'ATGCGGAGGCATGGG', 'ATGGG', 'ATGCCTCCGCATGAT', 'ATGATG', 'ATGATTAACTACATA']
 
-    Test for nesting?
 
     With multiple items on both sides
     """
@@ -207,7 +210,6 @@ def find_all_ORFs_both_strands(dna):
     while (len(ORF_list_c) != 0): # adding items to ORF_list while removing them off of ORF_list_c
         ORF_list.insert(len(ORF_list) + 1, ORF_list_c[0])
         ORF_list_c.remove(ORF_list_c[0])
-    #REVERSE dna_c it is read the other way
     return ORF_list
 
 def longest_ORF(dna):
