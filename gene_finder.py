@@ -217,9 +217,13 @@ def longest_ORF(dna):
         as a string
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
     'ATGCTACATTCGCAT'
+
+    Testing if there are two ORFs with the same length. Also testing more than two ORFs.
+    >>> longest_ORF("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
+    'ATGCGGAGGCATGGG'
     """
-    # TODO: implement this
-    pass
+    ORF_list = find_all_ORFs_both_strands(dna)
+    return max(ORF_list, key=len)
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -264,4 +268,4 @@ if __name__ == "__main__":
     import doctest
     #doctest.testmod()
     #doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
-    doctest.run_docstring_examples(find_all_ORFs_both_strands, globals(), verbose = False)
+    doctest.run_docstring_examples(longest_ORF, globals(), verbose = False)
