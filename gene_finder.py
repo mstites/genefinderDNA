@@ -288,6 +288,8 @@ def coding_strand_to_AA(dna):
         ''
 
         Checks when there are multiple sequences (need to get longest)
+        >>> coding_strand_to_AA("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
+        'MRRHG'
     """
     sequence = longest_ORF(dna) # gets the sequence
     if(len(sequence) <= 3): # if the sequence is only a start codon, or no sequence
