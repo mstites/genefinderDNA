@@ -227,6 +227,7 @@ def longest_ORF(dna):
 
     Testing if there is no ORF.
     >>> longest_ORF("ACGTAAAAAAAA")
+    ''
     """
     ORF_list = find_all_ORFs_both_strands(dna) # get the ORFs
     if (len(ORF_list) == 0): # if there are no ORFs
@@ -250,8 +251,8 @@ def longest_ORF_noncoding(dna, num_trials):
     function only a few times, printing each result, then checking to make
     sure the function returned the longer one.
 
-    >>> longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 7)
-    >>> longest_ORF_noncoding("ATGCGA", 3)"""
+    # >>> longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 7)
+    # >>> longest_ORF_noncoding("ATGCGA", 3)"""
     longest = 0
     for x in range(num_trials): # runs the number of times of num_trials
         dna_s = shuffle_string(dna) # find a shuffled dna sequence
@@ -275,10 +276,30 @@ def coding_strand_to_AA(dna):
         'MR'
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
+
+        Checks when there is a stop codon.
+
+        Checks when there is no start codon (No sequences)
+        >>> coding_strand_to_AA("CCCGTCTTT")
+        ''
+
+        Checks when there is only a start codon (No sequences)
+        >>> coding_strand_to_AA("ATGTAA")
+        ''
+
+        Checks when there are multiple sequences (need to get longest)
     """
-    # Remove ATG
-    # TODO: implement this
-    pass
+    sequence = longest_ORF(dna) # gets the sequence
+    if(len(sequence) <= 3): # if the sequence is only a start codon, or no sequence
+        return ""
+
+    sequence_AA = "" # string where the AA will be added, starting with M for ATG
+    for i in range(0, len(sequence), 3): # goes through by steps of 3
+        if(i+3 > len(sequence)): # if the next item is not a full codon
+            break
+        sequence_AA += aa_table[sequence[i:i+3]] # add the amino acid to the sequence
+
+    return sequence_AA
 
 
 def gene_finder(dna):
@@ -293,7 +314,6 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     #doctest.testmod()
-    #doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
-    #doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
-    #print(shuffle_string("ATGCGA"))
-    doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
+    #doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
+    doctest.run_docstring_examples(coding_strand_to_AA, globals(), verbose = True)
+    # doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
