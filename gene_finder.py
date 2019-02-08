@@ -90,9 +90,9 @@ def rest_of_ORF(dna):
     while (len(dna_n) != len(dna)):
         codon = dna[len(dna_n):(len(dna_n) + 3)] # next codon to test from the dna sequence
         if(codon == "TGA" or codon == "TAG" or codon == "TAA"): # checks for stop codon
-            return dna_n
+            return dna_n # have reached the stop codon, return
         else:
-            dna_n += codon
+            dna_n += codon # add the codon to the dna sequence
     return dna_n
 
 
@@ -169,17 +169,16 @@ def find_all_ORFs(dna):
     ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGAATGTAGATAGATGTGCCCCA', 'ATG']
     """
     ORF_list = []
-    ORF_num = 0
-    offset = 0
+    ORF_num = 0 # number of ORFs checked
+    offset = 0 # offset of DNA sequence
 
     while (offset <= 2):
-        oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)])
-        test = len(oneframe_ORF) != 0
-        while (len(oneframe_ORF) != 0):
-            ORF_list.insert(ORF_num, oneframe_ORF[0])
-            oneframe_ORF.remove(oneframe_ORF[0])
-            ORF_num += 1
-        offset += 1
+        oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)]) # find all the ORFs in one frame
+        while (len(oneframe_ORF) != 0): # as long as there are ORFs in the list
+            ORF_list.insert(ORF_num, oneframe_ORF[0]) # add ORF to ORF list
+            oneframe_ORF.remove(oneframe_ORF[0]) # remove ORF from oneframe ORF list
+            ORF_num += 1 # increase the number of ORFs checked by one
+        offset += 1 # increase the offset to check the next offset
 
     return ORF_list
 
@@ -221,21 +220,49 @@ def longest_ORF(dna):
     Testing if there are two ORFs with the same length. Also testing more than two ORFs.
     >>> longest_ORF("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
     'ATGCGGAGGCATGGG'
+
+    Testing if there is only one ORF.
+    >>> longest_ORF("ATGCGA")
+    'ATGCGA'
+
+    Testing if there is no ORF.
+    >>> longest_ORF("ACGTAAAAAAAA")
     """
-    ORF_list = find_all_ORFs_both_strands(dna)
-    return max(ORF_list, key=len)
+    ORF_list = find_all_ORFs_both_strands(dna) # get the ORFs
+    if (len(ORF_list) == 0): # if there are no ORFs
+        return None
+    else:
+        return max(ORF_list, key=len) # finds the max length string in the list
 
 
 def longest_ORF_noncoding(dna, num_trials):
     """ Computes the maximum length of the longest ORF over num_trials shuffles
         of the specfied DNA sequence
 
-        dna: a DNA sequence
-        num_trials: the number of random shuffles
-        returns: the maximum length longest ORF """
-    # TODO: implement this
-    pass
+    dna: a DNA sequence
+    num_trials: the number of random shuffles
+    returns: the maximum length longest ORF
 
+    We cannot write doctests with expected results for this function because
+    the result is randomized, so we cannot predict the outcome. Running the
+    function 100 times might result in a different solution that running it
+    100 times a seperate time would. A way totest the function is to run the
+    function only a few times, printing each result, then checking to make
+    sure the function returned the longer one.
+
+    >>> longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 7)
+    >>> longest_ORF_noncoding("ATGCGA", 3)"""
+    longest = 0
+    for x in range(num_trials): # runs the number of times of num_trials
+        dna_s = shuffle_string(dna) # find a shuffled dna sequence
+        longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
+        ORFs = find_all_ORFs_both_strands(dna_s)
+        print(ORFs)
+        if(len(ORFs) !=0): # if an ORF is found
+            longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
+            if(len(longest_s) > longest): # if the longest ORF in the strand is longer than the recorded longest ORF
+                longest = len(longest_s) # set longest to the longest ORF strand, int
+    return longest
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -251,6 +278,7 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
+    # Remove ATG
     # TODO: implement this
     pass
 
@@ -268,4 +296,6 @@ if __name__ == "__main__":
     import doctest
     #doctest.testmod()
     #doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
-    doctest.run_docstring_examples(longest_ORF, globals(), verbose = False)
+    doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
+    #print(shuffle_string("ATGCGA"))
+    #doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
