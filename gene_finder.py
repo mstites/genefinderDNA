@@ -255,13 +255,14 @@ def longest_ORF_noncoding(dna, num_trials):
     longest = 0
     for x in range(num_trials): # runs the number of times of num_trials
         dna_s = shuffle_string(dna) # find a shuffled dna sequence
+        print(dna_s)
         longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
-        ORFs = find_all_ORFs_both_strands(dna_s)
-        print(ORFs)
-        if(len(ORFs) !=0): # if an ORF is found
-            longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
+        # ORFs = find_all_ORFs_both_strands(dna_s)
+        # print(ORFs)
+        # if(len(ORFs) !=0): # if an ORF is found
+        #     longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
             if(len(longest_s) > longest): # if the longest ORF in the strand is longer than the recorded longest ORF
-                longest = len(longest_s) # set longest to the longest ORF strand, int
+            longest = len(longest_s) # set longest to the longest ORF strand, int
     return longest
 
 def coding_strand_to_AA(dna):
@@ -296,6 +297,6 @@ if __name__ == "__main__":
     import doctest
     #doctest.testmod()
     #doctest.run_docstring_examples(find_all_ORFs, globals(), verbose=False)
-    doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
+    #doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
     #print(shuffle_string("ATGCGA"))
-    #doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
+    doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
