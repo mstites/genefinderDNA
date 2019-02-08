@@ -230,7 +230,7 @@ def longest_ORF(dna):
     """
     ORF_list = find_all_ORFs_both_strands(dna) # get the ORFs
     if (len(ORF_list) == 0): # if there are no ORFs
-        return None
+        return "" # returns an empty string
     else:
         return max(ORF_list, key=len) # finds the max length string in the list
 
@@ -255,13 +255,10 @@ def longest_ORF_noncoding(dna, num_trials):
     longest = 0
     for x in range(num_trials): # runs the number of times of num_trials
         dna_s = shuffle_string(dna) # find a shuffled dna sequence
-        print(dna_s)
-        longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
-        # ORFs = find_all_ORFs_both_strands(dna_s)
-        # print(ORFs)
-        # if(len(ORFs) !=0): # if an ORF is found
-        #     longest_s = longest_ORF(dna_s) # finds the longest ORF on that strand
-            if(len(longest_s) > longest): # if the longest ORF in the strand is longer than the recorded longest ORF
+        # print("dna_s = ", dna_s) # print statement to make sure the string is shuffled
+        longest_s = longest_ORF(dna_s) # finds the longest ORF on that
+        # print("longest_ORF = ", longest_s) # print statement to check the longest (so we can see if the returned longest is actually the longest)
+        if(len(longest_s) > longest): # if the longest ORF in the strand is longer than the recorded longest ORF
             longest = len(longest_s) # set longest to the longest ORF strand, int
     return longest
 
