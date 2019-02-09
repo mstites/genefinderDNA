@@ -166,17 +166,8 @@ def find_all_ORFs(dna):
     ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGAATGTAGATAGATGTGCCCCA', 'ATG']
     """
     ORF_list = []
-    ORF_num = 0 # number of ORFs checked
-    offset = 0 # offset of DNA sequence
-
-    while (offset <= 2):
-        oneframe_ORF = find_all_ORFs_oneframe(dna[offset:len(dna)]) # find all the ORFs in one frame
-        while (len(oneframe_ORF) != 0): # as long as there are ORFs in the list
-            ORF_list.insert(ORF_num, oneframe_ORF[0]) # add ORF to ORF list
-            oneframe_ORF.remove(oneframe_ORF[0]) # remove ORF from oneframe ORF list
-            ORF_num += 1 # increase the number of ORFs checked by one
-        offset += 1 # increase the offset to check the next offset
-
+    for i in range(3): # checking the offsets 0-2
+        ORF_list += find_all_ORFs_oneframe(dna[i:]) # add all the ORFs in the current frame
     return ORF_list
 
 def find_all_ORFs_both_strands(dna):
@@ -312,7 +303,7 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     # doctest.testmod()
-    doctest.run_docstring_examples(rest_of_ORF, globals(), verbose = True)
+    doctest.run_docstring_examples(find_all_ORFs, globals(), verbose = True)
     # ##########################################################
     # ### Edit this portion to run  a different dna sample #####
     # # the final name and location relative to gene_finder.py #
