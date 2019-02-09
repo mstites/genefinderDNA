@@ -86,8 +86,8 @@ def rest_of_ORF(dna):
     'ATGGCGTGG'
     """
     dna_n = "" # initializing new dna sequence w/o stop codon as an empty string
-    while (len(dna_n) != len(dna)):
-        codon = dna[len(dna_n):(len(dna_n) + 3)] # next codon to test from the dna sequence
+    for i in range(0, len(dna), 3): # count i from 0 through the dna length, by 3
+        codon = dna[i:i + 3] # next codon to test from the dna sequence
         if(codon == "TGA" or codon == "TAG" or codon == "TAA"): # checks for stop codon
             return dna_n # have reached the stop codon, return
         else:
@@ -311,12 +311,12 @@ def gene_finder(dna):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
-    # doctest.run_docstring_examples(get_reverse_complement, globals(), verbose = True)
-    ##########################################################
-    ### Edit this portion to run  a different dna sample #####
-    # the final name and location relative to gene_finder.py #
-    dna = load_seq("./data/X73525.fa")
-    ##########################################################
-    results = gene_finder(dna)
-    print results
+    # doctest.testmod()
+    doctest.run_docstring_examples(rest_of_ORF, globals(), verbose = True)
+    # ##########################################################
+    # ### Edit this portion to run  a different dna sample #####
+    # # the final name and location relative to gene_finder.py #
+    # dna = load_seq("./data/X73525.fa")
+    # ##########################################################
+    # results = gene_finder(dna)
+    # print results
