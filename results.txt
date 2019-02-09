@@ -1,0 +1,3 @@
+Using my gene finder program and inputing the results into BLAST, I was able to find that my dna sequence most likely coded for SPI-1 type III secretion system protein in Salmonella (WP_000503098.1 Sequence ID was the best match). The gene associated with this is a antigen presentation protein SpaN. 
+
+NEED MORE STUFF
