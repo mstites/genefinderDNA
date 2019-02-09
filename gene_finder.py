@@ -58,11 +58,10 @@ def get_reverse_complement(dna):
     >>> get_reverse_complement("CCGCGTTCA")
     'TGAACGCGG'
     """
-    dna = dna[::-1]     # reverses the dna sequence
-    dna_r = ""  # initializing the dna reverse complementary as empty string
-    while (len(dna_r) < len(dna)):
-        dna_r += get_complement(dna[len(dna_r)])     # adds next complementary nucleotide
-    return dna_r
+    dna_r_c = ""  # initializing the dna reverse complementary as empty string
+    for n in dna[::-1]: # goes through dna in reverse order
+        dna_r_c += get_complement(n) # adds next complementary nucleotide
+    return dna_r_c
 
 
 def rest_of_ORF(dna):
@@ -139,8 +138,6 @@ def find_all_ORFs_oneframe(dna):
             ORF_list.insert(ORF_num, ORF) # adds the ORF to the list
             ORF_num += 1
             codons_checked += (int(len(ORF)/3)) # adds length of ORF to checked
-        # if (len(codon) < 3): # exit if not a complete codon
-        #     break
         codons_checked += 1 # also for stop codon if ORF found
 
     return ORF_list
@@ -315,7 +312,7 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
+    # doctest.run_docstring_examples(get_reverse_complement, globals(), verbose = True)
     ##########################################################
     ### Edit this portion to run  a different dna sample #####
     # the final name and location relative to gene_finder.py #
