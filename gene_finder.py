@@ -190,13 +190,8 @@ def find_all_ORFs_both_strands(dna):
 
     With multiple items on both sides
     """
-    ORF_list = find_all_ORFs(dna) # initilize by adding the unmodified strand ORFs
-
-    dna_c = get_reverse_complement(dna) # complementary dna_strand
-    ORF_list_c = find_all_ORFs(dna_c) # complementary list of ORF
-    while (len(ORF_list_c) != 0): # adding items to ORF_list while removing them off of ORF_list_c
-        ORF_list.insert(len(ORF_list) + 1, ORF_list_c[0])
-        ORF_list_c.remove(ORF_list_c[0])
+    ORF_list = find_all_ORFs(dna) # add ORFs in inital strand
+    ORF_list += find_all_ORFs(get_reverse_complement(dna)) # add ORFs in reverse_complement strand
     return ORF_list
 
 def longest_ORF(dna):
@@ -303,7 +298,7 @@ def gene_finder(dna):
 if __name__ == "__main__":
     import doctest
     # doctest.testmod()
-    doctest.run_docstring_examples(find_all_ORFs, globals(), verbose = True)
+    doctest.run_docstring_examples(find_all_ORFs_both_strands, globals(), verbose = True)
     # ##########################################################
     # ### Edit this portion to run  a different dna sample #####
     # # the final name and location relative to gene_finder.py #
