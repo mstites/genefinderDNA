@@ -1,3 +1,10 @@
-Using my gene finder program and inputing the results into BLAST, I was able to find that my dna sequence most likely coded for SPI-1 type III secretion system protein in Salmonella (WP_000503098.1 Sequence ID was the best match). The gene associated with this is a antigen presentation protein SpaN. 
+Using my gene finder program and inputing the results into BLAST, I was able to find that my dna sequence most likely coded for a SPI-1 type III secretion system protein in Salmonella. The genes I found with my different sequences were:
 
-NEED MORE STUFF
+- SpaO likely from Salmonella Typhimurium LT2. A possible role for SpaO is to help with the formation of the sorting platform substructure of the secretion system to deliver bacterial proteins. 
+--https://journals.plos.org/plospathogens/article?id=10.1371/journal.ppat.1007565
+
+- spaS likely from Salmonella Typhimurium LT2. A possible role for spaS is as a "secretory pathway responsible for the surface presentation of deteminants needed for the entry of Salmonella species into mammalian cells." Otherwise put, it helps serve as the pathway for moving the Salmonella into the cell.
+--https://www.uniprot.org/uniprot/P40702
+
+- SpaN likely from Salmonella (could not get any more specific, seemed to be present in all Salmoenlla species). A possible role for SpaN is to help serve as the pathway for moving the Salmonella into the cell. 
+--https://www.uniprot.org/uniprot/P40613
