@@ -297,12 +297,11 @@ def gene_finder(dna):
 
 if __name__ == "__main__":
     import doctest
-    # doctest.testmod()
-    doctest.run_docstring_examples(find_all_ORFs_both_strands, globals(), verbose = True)
-    # ##########################################################
-    # ### Edit this portion to run  a different dna sample #####
-    # # the final name and location relative to gene_finder.py #
-    # dna = load_seq("./data/X73525.fa")
-    # ##########################################################
-    # results = gene_finder(dna)
-    # print results
+    doctest.testmod()
+    ##########################################################
+    ### Edit this portion to run  a different dna sample #####
+    # the final name and location relative to gene_finder.py #
+    dna = load_seq("./data/X73525.fa")
+    ##########################################################
+    results = gene_finder(dna)
+    print results
