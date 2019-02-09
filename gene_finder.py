@@ -277,23 +277,15 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
 
-        Checks when there is a stop codon.
-
-        Checks when there is no start codon (No sequences)
-        >>> coding_strand_to_AA("CCCGTCTTT")
-        ''
-
-        Checks when there is only a start codon (No sequences)
+        Checks when there is only a start codon and a stop codon.
         >>> coding_strand_to_AA("ATGTAA")
-        ''
+        'M'
 
         Checks when there are multiple sequences (need to get longest)
         >>> coding_strand_to_AA("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
         'MRRHG'
     """
     sequence = longest_ORF(dna) # gets the sequence
-    if(len(sequence) <= 3): # if the sequence is only a start codon, or no sequence
-        return ""
 
     sequence_AA = "" # string where the AA will be added, starting with M for ATG
     for i in range(0, len(sequence), 3): # goes through by steps of 3
@@ -309,13 +301,25 @@ def gene_finder(dna):
 
         dna: a DNA sequence
         returns: a list of all amino acid sequences coded by the sequence dna.
+        #>>> gene_finder("CATCATATGTAGTTAATCATGCGGAGGCATGGG")
     """
-    # TODO: implement this
-    pass
+    threshold = longest_ORF_noncoding(dna, 1500)
+    ORFs = find_all_ORFs_both_strands(dna)
+    AA_list = [] # list of amino acid strings
+    for i in range(len(ORFs)): # go through all ORFs
+        if (len(ORFs[i]) > threshold): # check if ORF is longer than threshold
+            AA_list.append(coding_strand_to_AA(ORFs[i])) # add the current ORF to the AA_list
+
+    return AA_list
 
 if __name__ == "__main__":
     import doctest
-    #doctest.testmod()
-    #doctest.run_docstring_examples(longest_ORF_noncoding, globals(), verbose = False)
-    doctest.run_docstring_examples(coding_strand_to_AA, globals(), verbose = True)
-    # doctest.run_docstring_examples(longest_ORF, globals(), verbose = True)
+    doctest.testmod()
+
+    ##########################################################
+    ### Edit this portion to run  a different dna sample #####
+    # the final name and location relative to gene_finder.py #
+    dna = load_seq("./data/X73525.fa")
+    ##########################################################
+    results = gene_finder(dna)
+    print results
