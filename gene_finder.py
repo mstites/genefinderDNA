@@ -159,8 +159,6 @@ def find_all_ORFs(dna):
     >>> find_all_ORFs("ATGTTTATGAACTGGTAGCATGTAG")
     ['ATGTTTATGAACTGG', 'ATG']
 
-    The following unit test was added to test with no stop codon. ADD
-
     The following unit test was added to test multiple ORFs in one frame and not ending in a stop codon.
     >>> find_all_ORFs("ATGCATGAATGTAGATAGATGTGCCCCATGATTGAC")
     ['ATGCATGAATGTAGA', 'ATGTGCCCCATGATTGAC', 'ATGAATGTAGATAGATGTGCCCCA', 'ATG']
